@@ -1,106 +1,79 @@
 # Galactic Guidance System Mk1 (GGS-Mk1)
-## 🚀 Formal-Methods Powered Inertial Navigation System
+## High-Integrity Inertial Navigation System
 
-**Developed by: Lucas Alonso Basanko**
-
----
-
-## 🌌 Overview
-
-The **Galactic Guidance System Mk1** is a high-integrity Inertial Navigation System (INS) engineered to provide precise spatial positioning and orientation. Unlike standard consumer-grade navigation software, GGS-Mk1 is built using a **Zero-Copy Hyper-Plane** architecture, combining the raw hardware efficiency of **C** with the mathematical provability of **Ada (SPARK)**.
-
-This project was conceived as an exercise in "Over-Engineered Genius"—bringing aerospace-grade software reliability to a standard Linux laptop environment.
+**Author: Lucas Alonso Basanko**
 
 ---
 
-## 🛠 Architectural Philosophy: The "Hyper-Plane"
+## Technical Overview
 
-The system is divided into three strictly isolated domains that interact through a shared memory sanctuary:
+GGS-Mk1 is a high-integrity Inertial Navigation System (INS) designed for precise spatial tracking using a multi-language, zero-copy architecture. The system employs **Ada/SPARK** for its mathematical core to leverage formal verification and **C** for its hardware abstraction layer to ensure low-latency data acquisition.
 
-### 1. The Hardware Pump (C11)
-- **Role**: High-frequency, interrupt-driven data acquisition.
-- **Implementation**: Bypasses high-level overhead by communicating directly with the Linux Industrial I/O (IIO) subsystem and HID raw nodes.
-- **Efficiency**: Runs as a real-time `SCHED_FIFO` process, pushing raw sensor packets into a lock-free ring buffer.
+The primary objective of the system is to provide a reliable Dead Reckoning solution by fusing high-frequency sensor data within a strictly typed physical framework.
 
-### 2. The Dimensional Marshal (Ada 2012)
-- **Role**: Dimensional safety and physics enforcement.
-- **Implementation**: Uses Ada's strict type system to define physical dimensions (`Meters`, `Seconds`, `Acceleration`).
-- **Safety**: The compiler physically forbids illegal operations (e.g., adding acceleration to velocity without time integration).
+## Architecture: The Zero-Copy Hyper-Plane
 
-### 3. The Proven Core (SPARK 2014)
-- **Role**: The mathematical brain (Kalman Filter / Dead Reckoning).
-- **Implementation**: Written in the SPARK subset of Ada.
-- **Verification**: Formally proven to be free of runtime errors (No overflows, no division by zero, no out-of-bounds access).
+The system is structured into three isolated domains that communicate through a shared, memory-mapped sanctuary to eliminate data duplication overhead.
 
----
+### 1. Hardware Abstraction Layer (C11)
+- **Responsibility**: Real-time data acquisition from the Linux Industrial I/O (IIO) and HID subsystems.
+- **Execution**: Runs as a high-priority thread utilizing raw Linux syscalls to minimize jitter.
+- **Data Flow**: Populates a lock-free ring buffer in a memory region shared with the logic core.
 
-## 📐 Mathematical Framework: Dead Reckoning
+### 2. Physical Type System (Ada 2012)
+- **Responsibility**: Enforcement of dimensional analysis and physical laws.
+- **Implementation**: Utilizes Ada's strong typing to define unique dimensions for `Acceleration`, `Velocity`, and `Position`.
+- **Safety**: Semantic errors, such as the improper mixing of units, are caught at compile-time rather than at runtime.
 
-The GGS-Mk1 implements a continuous integration loop to derive position from noisy acceleration data.
+### 3. Navigation Core (SPARK 2014)
+- **Responsibility**: State estimation and integration logic.
+- **Verification**: The core is written in the SPARK subset of Ada, allowing for formal proof of the absence of runtime errors (AoRTE), including overflows and division by zero.
+- **Algorithm**: Implements a discrete integration loop with gravity compensation and noise filtering.
 
-$$Velocity_{t+1} = Velocity_t + (Acceleration_{body} - Gravity) \cdot \Delta t$$
-$$Position_{t+1} = Position_t + Velocity_{t+1} \cdot \Delta t$$
+## Mathematical Implementation
 
-### 🛡 Dimensional Protection
-In GGS-Mk1, the following code will **fail to compile**, protecting the mission from unit errors:
-```ada
--- This results in a COMPILE ERROR
-Distance := Speed + Acceleration; 
-```
+GGS-Mk1 performs state estimation through the following integration process:
 
----
+1. **Gravity Rejection**:
+   $$a_{world} = R(q) \cdot a_{body} - g$$
+2. **First Integration (Velocity Update)**:
+   $$v_{t+1} = v_t + a_{world} \cdot \Delta t$$
+3. **Second Integration (Position Update)**:
+   $$p_{t+1} = p_t + v_{t+1} \cdot \Delta t$$
 
-## 🛰 Hardware Support & Simulation
-The system features a **Hybrid Hardware Driver**:
-- **Live Mode**: Attempts to bind to `/dev/HID-SENSOR-*` or `/sys/bus/iio/devices/iio:device0`.
-- **Simulation Fallback**: If no hardware is detected, the system engages a high-fidelity **Stochastic Physics Simulator**, modeling sensor noise, bias instability, and random walk.
-
----
-
-## 📂 Project Structure
+## Software Structure
 
 ```text
 .
-├── bin/                # Compiled binaries and shared libraries
-├── obj/                # Object files and SPARK proof artifacts
 ├── src/
-│   ├── ada_core/       # The Verified Navigation Brain (Ada/SPARK)
-│   ├── c_driver/       # The Hardware "Pump" (C)
-│   └── shared/         # Memory protocols and shared headers
-└── gemini_ins.gpr      # GNAT Project configuration
+│   ├── ada_core/       # Formal logic and navigation core (SPARK)
+│   ├── c_driver/       # Hardware-near data pump (C)
+│   └── shared/         # Shared memory protocols and structures
+├── gemini_ins.gpr      # GPRbuild project file
+└── bin/                # Executable binaries
 ```
 
----
+## Build and Execution
 
-## 🚀 Installation & Running
-
-### Prerequisites
-- Linux OS
-- GNAT Ada Compiler (`sudo apt install gnat gprbuild`)
+### System Requirements
+- Linux Environment
+- GNAT Ada Toolchain (2012+)
+- GPRbuild
 - GCC
 
-### Build
+### Compilation
 ```bash
 gprbuild -P gemini_ins.gpr
 ```
 
-### Run
+### Execution
+The binary requires elevated privileges to access raw hardware character devices:
 ```bash
-cd bin
-sudo ./main_ins
+sudo ./bin/main_ins
 ```
-*(Sudo is required for raw hardware access via the HID/IIO subsystem)*
 
----
+## License
 
-## 📜 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-**Copyright (c) 2026 Lucas Alonso Basanko**
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-
----
-
-## 🌠 "Because the Universe doesn't use Python."
+Copyright (c) 2026 Lucas Alonso Basanko
