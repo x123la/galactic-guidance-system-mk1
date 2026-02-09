@@ -1,5 +1,6 @@
 with Interfaces; use Interfaces;
 with Interfaces.C;
+with System;
 
 package Shared_Memory is
    pragma Preelaborate;
@@ -12,6 +13,14 @@ package Shared_Memory is
    type UInt32 is new Interfaces.Unsigned_32;
    type UInt64 is new Interfaces.Unsigned_64;
    type UInt8  is new Interfaces.Unsigned_8;
+
+   Status_Source_Mask         : constant UInt32 := 16#0000000F#;
+   Status_Source_None         : constant UInt32 := 16#00000000#;
+   Status_Source_IIO          : constant UInt32 := 16#00000001#;
+   Status_Source_Sim          : constant UInt32 := 16#00000002#;
+   Status_Flag_Sensor_Missing : constant UInt32 := 16#00000100#;
+   Status_Flag_Sample_Dropped : constant UInt32 := 16#00000200#;
+   Status_Flag_Dt_Clamped     : constant UInt32 := 16#00000400#;
 
    type Padding_Array is array (1 .. 16) of UInt8;
 
@@ -39,15 +48,20 @@ package Shared_Memory is
    --  The Shared Memory Area (Matches Shared_Memory_Area_t)
    type Shared_Memory_Area is record
       Write_Index : UInt32; --  C writes here
-      Read_Index  : UInt32; --  Ada reads/updates here
+      Read_Index  : UInt32; --  Legacy field; readers should not update in multi-reader mode.
+      Write_Count : UInt64; --  Monotonic sample counter (writer-owned).
+      Writer_Pid  : UInt32; --  PID of active writer process (0 if none).
+      Reserved0   : UInt32;
       Buffer      : Sample_Buffer_Array;
    end record;
    pragma Volatile (Shared_Memory_Area);
    pragma Convention (C, Shared_Memory_Area);
 
-   --  Import the global variable from C
-   --  The C code will define: Shared_Memory_Area_t global_shared_memory;
-   Global_Memory : Shared_Memory_Area;
-   pragma Import (C, Global_Memory, "global_shared_memory");
+   type Shared_Memory_Access is access all Shared_Memory_Area;
+
+   procedure Initialize;
+   function Is_Initialized return Boolean;
+
+   Global_Memory : Shared_Memory_Access := null;
 
 end Shared_Memory;

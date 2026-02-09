@@ -1,137 +1,129 @@
 # Galactic Guidance System Mk1 (GGS-Mk1)
-## High-Integrity Inertial Navigation System | Technical Manual & System Documentation
 
-**Principal Engineer: Lucas Alonso Basanko**  
-**Revision: 1.1.0**  
-**Date: February 2026**
+Real-time inertial pipeline using:
+- `C` sensor driver (`src/c_driver/driver.c`)
+- `Ada` navigation core (`src/ada_core/main_ins.adb`)
+- `Python` demo and visualizer (`ins_demo.py`, `viz/visualizer.py`)
 
----
+## What This Build Guarantees
 
-## 1. Executive Summary
+- Uses a real Linux IIO accelerometer when available (`/sys/bus/iio/devices/iio:device*`).
+- Will **not silently fake data**.
+- Simulation fallback is opt-in only with `GGS_ALLOW_SIM=1`.
+- Startup fails fast with clear diagnostics when no sensor stream is available.
+- Uses real cross-process shared memory (`shm_open` + `mmap`) for telemetry exchange.
+- Enforces a single writer process using a lock file (`/tmp/ggs_mk1_writer.lock`).
+- Supports automatic writer takeover: reader processes can promote themselves if the writer disappears.
 
-The **Galactic Guidance System Mk1 (GGS-Mk1)** is a high-integrity Inertial Navigation System (INS) engineered for deterministic state estimation in high-criticality environments. The system architecture utilizes a **Zero-Copy Hyper-Plane** model, facilitating near-zero latency data transfer between a hardware-level C11 acquisition layer and a formally verified Ada/SPARK 2014 logic kernel.
+## Requirements
 
-The GGS-Mk1 provides a robust foundation for spatial tracking by employing high-fidelity sensor fusion and real-time numerical integration of motion vectors within a strictly partitioned and formally verified memory space.
+- Linux
+- `gcc`
+- `gprbuild` / GNAT toolchain
+- `python3`
+- Optional visualizer: `python3 -m pip install ursina`
 
----
+## Build
 
-## 2. System Architecture
-
-### 2.1 Structural Decomposition
-The system is partitioned into four primary functional domains to ensure maximum isolation, fault containment, and telemetry visualization:
-
-1.  **Hardware Abstraction Layer (HAL)**: Low-level C11 driver interface for raw sensor acquisition.
-2.  **Logic and Navigation Core (LNC)**: Formally verified Ada/SPARK kernel for state estimation.
-3.  **Shared Memory Interface (SMI)**: The high-speed synchronization plane utilizing lock-free concurrency.
-4.  **Tactical Visualization Engine (TVE)**: A 3D real-time telemetry renderer powered by the Ursina Engine.
-
-### 2.2 Data Flow Map (System Topology)
-```text
-[ PHYSICAL HARDWARE ] <--- Intel Integrated Sensor Hub (ISH)
-       |
-       | (Interrupt / Non-blocking Syscall)
-       v
-[ C11 HARDWARE PUMP ]  <--- Managed by HAL (Zero-Latency Acquisition)
-       |
-       | (Lock-Free Write)
-       v
-[ SHARED MEMORY RING BUFFER ] <--- SMI (Shared Memory Interface)
-       |                            |
-       | (Type-Safe Overlay)        | (Ctypes Interop)
-       v                            v
-[ ADA/SPARK NAV CORE ]        [ 3D TACTICAL VISUALIZER ]
-       |                            |
-       | (Formal Proofs)            | (Real-Time Rendering)
-       v                            v
-[ PROVEN NAV STATE ]          [ 3D SPACE MANIFESTATION ]
+```bash
+make
 ```
 
----
+This builds:
+- `bin/main_ins` (Ada core + C driver)
+- `bin/libdriver.so` (for Python demo/visualizer)
 
-## 3. Detailed Component Specifications
+## Run
 
-### 3.1 Hardware Abstraction Layer (HAL)
-The HAL is implemented in C11 to provide optimal access to the Linux kernel's `iio` and `hidraw` subsystems.
-- **Async I/O Strategy**: Utilizes `O_NONBLOCK` flags and atomic memory barriers (`__atomic_store_n`) to ensure the Logic Core always accesses the most recent coherent sensor packet.
-- **Hybrid Support**: Features an automatic fallback to a high-fidelity stochastic simulator if hardware interrupts are unavailable.
+### Ada navigation core (real sensor mode)
 
-### 3.2 The Physics Engine & Type System
-The system leverages Ada's unique ability to define **Physical Dimensions** at the compiler level. This prevents the "Mars Climate Orbiter" class of failures by making it physically impossible to compile code that violates the laws of motion.
-
-```ada
--- Compiler-enforced physics
-type Meters is new Float_64;
-type Seconds is new Float_64;
-type Velocity is new Float_64;
-
--- Error: Distance cannot be assigned Velocity
-Distance := Velocity_Value; 
-
--- Correct: Velocity integrated over time
-Distance := Velocity_Value * Delta_T; 
+```bash
+./bin/main_ins
 ```
 
-### 3.3 Tactical Visualization Engine (TVE)
-The TVE provides a 3D real-time representation of the estimated state.
-- **Engine**: Ursina (Python/Panda3D).
-- **Communication**: Zero-latency shared memory mapping via `ctypes`.
-- **Visuals**: Neon-stylized 3D laptop avatar with dynamic motion trails, a tactical HUD, and a 3D starfield for spatial reference.
+Optional runtime limit:
 
----
+```bash
+./bin/main_ins 10
+```
 
-## 4. Mathematical Methodology
+### Python CLI demo
 
-### 4.1 State Integration & Dead Reckoning
-The GGS-Mk1 derives position ($p$) and velocity ($v$) from raw acceleration ($a$) using discrete-time numerical integration.
+```bash
+python3 -u ins_demo.py --seconds 10
+```
 
-1.  **Gravity Rejection**:
-    Isolates linear acceleration by subtracting the gravity constant ($g \approx 9.80665 \, m/s^2$) from the body-frame Z-axis after orientation correction.
-    $$a_{linear} = a_{raw} - g$$
+### Visualizer
 
-2.  **Kinematic Update**:
-    The system updates the navigation state at 400Hz:
-    $$v_{t+1} = v_t + a_{linear} \cdot \Delta t$$
-    $$p_{t+1} = p_t + v_{t+1} \cdot \Delta t$$
+```bash
+python3 -u viz/visualizer.py
+```
 
-### 4.2 Formal Verification (SPARK)
-The LNC is mathematically proven using automated theorem provers.
-- **AoRTE Proofs**: Mathematical guarantee of the absence of runtime errors.
-- **Static Analysis**: Proof that every array access is in-bounds and every mathematical operation is stable.
+## Multi-Process Mode
 
----
+You can run the producer and one or more readers at the same time:
 
-## 5. Interface Control Document (ICD)
+Terminal 1 (producer):
 
-### 5.1 Shared Memory Layout
-The SMI utilizes a contiguous 64-bit aligned memory block:
+```bash
+GGS_ALLOW_SIM=1 ./bin/main_ins 30
+```
 
-| Offset | Field | Type | Description |
-| :--- | :--- | :--- | :--- |
-| 0x00 | `write_index` | `uint32_t` | Global write head (C controlled) |
-| 0x04 | `read_index` | `uint32_t` | Global read head (Ada controlled) |
-| 0x08 | `buffer[1024]`| `Sensor_Sample_t` | Circular telemetry storage |
+Terminal 2 (reader):
 
----
+```bash
+python3 -u ins_demo.py --seconds 10
+```
 
-## 6. Operational Deployment
+Terminal 3 (reader visualizer):
 
-### 6.1 The "Sexy Powers" Manifestation
-The system includes an orchestration command for streamlined deployment.
+```bash
+python3 -u viz/visualizer.py
+```
 
-**Command:** `galacticmanifestyoursexypowersbaby`
+If a writer already exists, additional processes automatically run in reader-only mode.
+If the writer exits, readers attempt one automatic takeover before failing.
 
-**Sequence of Execution:**
-1. **Privilege Elevation**: Validates `sudo` access for HAL hardware attachment.
-2. **Brain Initialization**: Launches the LNC (Ada/SPARK) in high-priority background mode.
-3. **Holodeck Engagement**: Launches the TVE (3D Visualizer) for real-time telemetry monitoring.
+## Simulation Fallback (Explicit Only)
 
----
+If you intentionally want synthetic data:
 
-## 7. License and Copyright
+```bash
+GGS_ALLOW_SIM=1 ./bin/main_ins
+GGS_ALLOW_SIM=1 python3 -u ins_demo.py
+GGS_ALLOW_SIM=1 python3 -u viz/visualizer.py
+```
 
-This project and its associated documentation are licensed under the **MIT License**.
+## Status Flags
 
-**Copyright (c) 2026 Lucas Alonso Basanko**
+From `src/shared/sensor_protocol.h`:
+- Source:
+  - `STATUS_SOURCE_NONE`
+  - `STATUS_SOURCE_IIO`
+  - `STATUS_SOURCE_SIM`
+- Health:
+  - `STATUS_FLAG_SENSOR_MISSING`
+  - `STATUS_FLAG_SAMPLE_DROPPED`
+  - `STATUS_FLAG_DT_CLAMPED`
 
----
-**DOCUMENTATION END**
+`STATUS_FLAG_SAMPLE_DROPPED` is reserved for future per-reader loss accounting.
+
+## Shared Memory Contract
+
+The mapped `Shared_Memory_Area_t` header includes:
+- `write_index`: ring write head (writer-owned)
+- `read_index`: legacy field (not used for multi-reader flow control)
+- `write_count`: monotonic sample counter (writer-owned)
+- `writer_pid`: active writer PID (0 if none)
+
+Reader behavior:
+- Readers attach at the current `write_index` to avoid replaying stale slots.
+- Readers do not mutate shared head/tail state.
+- If a reader lags by more than ring size, it resyncs to live head and logs a warning.
+
+## Notes
+
+- Acceleration fields are in `mm/s^2` (`9806 ~= 1g`).
+- Shared memory object name: `"/ggs_mk1_shm"`.
+- `main_ins`, `ins_demo.py`, and `visualizer.py` map the same region across processes.
+- Ring behavior is real-time and lossy-by-design under heavy load (latest data wins).

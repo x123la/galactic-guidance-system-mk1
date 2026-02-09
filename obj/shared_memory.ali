@@ -9,59 +9,99 @@ A -march=x86-64
 P ZX
 
 RN
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_UNCHECKED_CONVERSION
 RV NO_IMPLEMENTATION_PRAGMAS
 
-U shared_memory%s	shared_memory.ads	496a2ec7 NE OO PR PK
+U shared_memory%b	shared_memory.adb	8f1ee9bf NE OO PK
+W ada%s			ada.ads			ada.ali
+W ada.unchecked_conversion%s
+W system%s		system.ads		system.ali
+
+U shared_memory%s	shared_memory.ads	e0a9f770 NE OO PR PK
 W interfaces%s		interfac.ads		interfac.ali
 W interfaces.c%s	i-c.adb			i-c.ali
+W system%s		system.ads		system.ali
 
 D ada.ads		20240801081713 76789da1 ada%s
 D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
 D interfac.ads		20240801081713 9111f9c1 interfaces%s
 D i-c.ads		20240801081713 aac316ce interfaces.c%s
-D shared_memory.ads	20260209024527 72b8c1c8 shared_memory%s
+D shared_memory.ads	20260209034121 cf537370 shared_memory%s
+D shared_memory.adb	20260209033658 5afed6af shared_memory%b
 D system.ads		20240801081714 14286b0f system%s
 D s-exctab.ads		20240801081713 91bef6ef system.exception_table%s
 D s-parame.ads		20250315014742 a1aeab5c system.parameters%s
 D s-stalib.ads		20240801081713 1c9580f6 system.standard_library%s
 G a e
-G c Z s s [Tpadding_arrayBIP shared_memory 16 4 none]
-G c Z s s [sensor_sampleIP shared_memory 19 9 none]
-G c Z s s [Tsample_buffer_arrayBIP shared_memory 36 4 none]
-G c Z s s [shared_memory_areaIP shared_memory 40 9 none]
+G c Z s b [initialize shared_memory 62 14 none]
+G c Z s b [is_initialized shared_memory 63 13 none]
+G c Z s s [Tpadding_arrayBIP shared_memory 25 4 none]
+G c Z s s [sensor_sampleIP shared_memory 28 9 none]
+G c Z s s [Tsample_buffer_arrayBIP shared_memory 45 4 none]
+G c Z s s [shared_memory_areaIP shared_memory 49 9 none]
+G c Z b b [ggs_map_shared_memory shared_memory 7 13 none]
+G c Z b b [to_shared_memory_access shared_memory 10 13 none]
+X 1 ada.ads
+16K9*Ada 20e8 6|1r6 11r10
+X 2 a-unccon.ads
+20v14*Unchecked_Conversion 6|1w10 11r14
 X 3 interfac.ads
-38K9*Interfaces 233e15 5|1w6 1r22 2r6 11r22 12r23 13r23 14r23
-54I9*Integer_32<integer> 5|11r33
-70M9*Unsigned_8 5|14r34
-81M9*Unsigned_32 5|12r34
-84M9*Unsigned_64 5|13r34
+38K9*Interfaces 233e15 5|1w6 1r22 2r6 12r22 13r23 14r23 15r23
+54I9*Integer_32<integer> 5|12r33
+70M9*Unsigned_8 5|15r34
+81M9*Unsigned_32 5|13r34
+84M9*Unsigned_64 5|14r34
 X 4 i-c.ads
 30K20*C 598e17 5|2w17
 X 5 shared_memory.ads
-4K9*Shared_Memory 53l5 53e18
-8N4*Ring_Buffer_Size 36r44
-11I9*Int32<3|54I9> 21r22 22r22 23r22 24r22 25r22 26r22 27r22 28r22 29r22
-12M9*UInt32<3|81M9> 30r22 41r21 42r21
-13M9*UInt64<3|84M9> 20r22
-14M9*UInt8<3|70M9> 16r45
-16A9*Padding_Array(14M9)<integer> 31r22
-19R9*Sensor_Sample 32e14 33r26 36r69
-20m7*Timestamp_Ns{13M9}
-21i7*Accel_X{11I9}
-22i7*Accel_Y{11I9}
-23i7*Accel_Z{11I9}
-24i7*Gyro_X{11I9}
-25i7*Gyro_Y{11I9}
-26i7*Gyro_Z{11I9}
-27i7*Mag_X{11I9}
-28i7*Mag_Y{11I9}
-29i7*Mag_Z{11I9}
-30m7*Status_Flags{12M9}
-31a7*Padding{16A9}
-36A9*Sample_Buffer_Array(19R9)<integer> 37r26 43r21
-40R9*Shared_Memory_Area 44e14 45r21 46r26 50r20
-41m7*Write_Index{12M9}
-42m7*Read_Index{12M9}
-43a7*Buffer{36A9}
-50r4*Global_Memory{40R9} 51m22 51r22
+5K9*Shared_Memory 67l5 67e18 6|4b14 28l5 28t18
+9N4*Ring_Buffer_Size 45r44
+12I9*Int32<3|54I9> 30r22 31r22 32r22 33r22 34r22 35r22 36r22 37r22 38r22
+13M9*UInt32<3|81M9> 17r42 18r42 19r42 20r42 21r42 22r42 23r42 39r22 50r21
+. 51r21 53r21 54r21
+14M9*UInt64<3|84M9> 29r22 52r21
+15M9*UInt8<3|70M9> 25r45
+17m4*Status_Source_Mask{13M9}
+18m4*Status_Source_None{13M9}
+19m4*Status_Source_IIO{13M9}
+20m4*Status_Source_Sim{13M9}
+21m4*Status_Flag_Sensor_Missing{13M9}
+22m4*Status_Flag_Sample_Dropped{13M9}
+23m4*Status_Flag_Dt_Clamped{13M9}
+25A9*Padding_Array(15M9)<integer> 40r22
+28R9*Sensor_Sample 41e14 42r26 45r69
+29m7*Timestamp_Ns{14M9}
+30i7*Accel_X{12I9}
+31i7*Accel_Y{12I9}
+32i7*Accel_Z{12I9}
+33i7*Gyro_X{12I9}
+34i7*Gyro_Y{12I9}
+35i7*Gyro_Z{12I9}
+36i7*Mag_X{12I9}
+37i7*Mag_Y{12I9}
+38i7*Mag_Z{12I9}
+39m7*Status_Flags{13M9}
+40a7*Padding{25A9}
+45A9*Sample_Buffer_Array(28R9)<integer> 46r26 55r21
+49R9*Shared_Memory_Area 56e14 57r21 58r26 60r44
+50m7*Write_Index{13M9}
+51m7*Read_Index{13M9}
+52m7*Write_Count{14M9}
+53m7*Writer_Pid{13M9}
+54m7*Reserved0{13M9}
+55a7*Buffer{45A9}
+60P9*Shared_Memory_Access(49R9) 65r20 6|11r52
+62U14*Initialize 6|13b14 21l8 21t18
+63V13*Is_Initialized{boolean} 6|23b13 26l8 26t22
+65p4*Global_Memory{60P9} 6|17m10 19m10 25r14
+X 6 shared_memory.adb
+7V13 GGS_Map_Shared_Memory{7|67M9} 8b<c,ggs_map_shared_memory>22 14s41
+10V13 To_Shared_Memory_Access[2|20]{5|60P9} 19s27
+14m7 Addr{7|67M9} 16r10 19r52
+X 7 system.ads
+37K9*System 5|3w6 6|2w6 5r13 7r42 11r36 14r23 16r17 7|155e11
+67M9*Address 6|5r20 7r49 11r43 14r30
+69m4*Null_Address{67M9} 6|16r24
+81V14*"="{boolean} 6|16r15
 
