@@ -1,4 +1,4 @@
-project Gemini_INS is
+project Galactic_INS is
 
    for Languages use ("Ada", "C");
    for Source_Dirs use ("src/ada_core", "src/c_driver", "src/shared");
@@ -15,4 +15,4 @@ project Gemini_INS is
       for Switches ("Ada") use ("-g", "-lpthread", "-lm");
    end Linker;
 
-end Gemini_INS;
+end Galactic_INS;

@@ -35,7 +35,7 @@ procedure Main_INS is
 
 begin
    Put_Line ("==================================================");
-   Put_Line ("   GEMINI INERTIAL NAVIGATION SYSTEM (FULL)       ");
+   Put_Line ("   GALACTIC INERTIAL NAVIGATION SYSTEM (FULL)     ");
    Put_Line ("==================================================");
    Put_Line ("Architecture: Zero-Copy Hyper-Plane (Ada + C)");
    Put_Line ("Status: Navigation Core Active");

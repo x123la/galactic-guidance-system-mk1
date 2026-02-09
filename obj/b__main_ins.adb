@@ -253,11 +253,11 @@ package body ada_main is
    end;
 
 --  BEGIN Object file/option list
-   --   /home/x123la/gemini_ins/obj/physics_units.o
-   --   /home/x123la/gemini_ins/obj/shared_memory.o
-   --   /home/x123la/gemini_ins/obj/main_ins.o
-   --   -L/home/x123la/gemini_ins/obj/
-   --   -L/home/x123la/gemini_ins/obj/
+   --   /home/x123la/repos/Galactic_Guidance_System_Mk1/obj/physics_units.o
+   --   /home/x123la/repos/Galactic_Guidance_System_Mk1/obj/shared_memory.o
+   --   /home/x123la/repos/Galactic_Guidance_System_Mk1/obj/main_ins.o
+   --   -L/home/x123la/repos/Galactic_Guidance_System_Mk1/obj/
+   --   -L/home/x123la/repos/Galactic_Guidance_System_Mk1/obj/
    --   -L/usr/lib/gcc/x86_64-linux-gnu/14/adalib/
    --   -shared
    --   -lgnat-14

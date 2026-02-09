@@ -30,7 +30,7 @@ class Shared_Memory_Area_t(ctypes.Structure):
     ]
 
 # --- 2. Load the C Driver ---
-lib_path = os.path.abspath("gemini_ins/bin/libdriver.so")
+lib_path = os.path.abspath("bin/libdriver.so")
 try:
     c_driver = ctypes.CDLL(lib_path)
 except OSError:
@@ -42,7 +42,7 @@ global_memory = Shared_Memory_Area_t.in_dll(c_driver, "global_shared_memory")
 
 # --- 3. The "Ada Brain" Logic (Python Version) ---
 print("==================================================")
-print("   GEMINI INERTIAL NAVIGATION SYSTEM (DEMO)       ")
+print("   GALACTIC INERTIAL NAVIGATION SYSTEM (DEMO)     ")
 print("==================================================")
 print("Architecture: Zero-Copy Hyper-Plane (Python + C)")
 print("Initializing Hardware Pump...")
