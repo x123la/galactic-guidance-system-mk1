@@ -1,0 +1,18 @@
+project Gemini_INS is
+
+   for Languages use ("Ada", "C");
+   for Source_Dirs use ("src/ada_core", "src/c_driver", "src/shared");
+   for Object_Dir use "obj";
+   for Exec_Dir use "bin";
+   for Main use ("main_ins.adb");
+
+   package Compiler is
+      for Switches ("Ada") use ("-gnat2012", "-g", "-gnata", "-gnato"); -- Debug, Assertions, Overflow checks
+      for Switches ("C") use ("-g", "-O2", "-pthread");
+   end Compiler;
+
+   package Linker is
+      for Switches ("Ada") use ("-g", "-lpthread", "-lm");
+   end Linker;
+
+end Gemini_INS;

@@ -1,0 +1,137 @@
+V "GNAT Lib v14"
+M P W=b
+A -gnatA
+A -gnat2012
+A -g
+A -gnata
+A -gnato
+A -mtune=generic
+A -march=x86-64
+P ZX
+
+RN
+RV NO_DELAY
+RV NO_FIXED_POINT
+RV NO_FLOATING_POINT
+RV NO_IO
+RV NO_RELATIVE_DELAY
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U main_ins%b		main_ins.adb		6a118266 NE OO SU
+W ada%s			ada.ads			ada.ali
+Z ada.calendar.delays%s	a-caldel.adb		a-caldel.ali
+Z ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W interfaces%s		interfac.ads		interfac.ali
+W physics_units%s	physics_units.adb	physics_units.ali
+W shared_memory%s	shared_memory.ads	shared_memory.ali
+Z system.concat_3%s	s-conca3.adb		s-conca3.ali
+Z system.img_lflt%s	s-imglfl.ads		s-imglfl.ali
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-calend.ads		20250315014742 478f26d5 ada.calendar%s
+D a-caldel.ads		20240801081713 9f20b83d ada.calendar.delays%s
+D a-except.ads		20240801081713 e7970cd9 ada.exceptions%s
+D a-ioexce.ads		20240801081713 40018c65 ada.io_exceptions%s
+D a-stream.ads		20240801081713 119b8fb3 ada.streams%s
+D a-string.ads		20240801081713 90ac6797 ada.strings%s
+D a-sttebu.ads		20240801081713 f1ad67a2 ada.strings.text_buffers%s
+D a-stuten.ads		20240801081713 c6ced0ae ada.strings.utf_encoding%s
+D a-tags.ads		20240801081713 9eaa38c6 ada.tags%s
+D a-textio.ads		20240801081713 34ef47de ada.text_io%s
+D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20240801081713 9111f9c1 interfaces%s
+D i-c.ads		20240801081713 aac316ce interfaces.c%s
+D i-cstrea.ads		20240801081713 ffd01b9d interfaces.c_streams%s
+D main_ins.adb		20260209024747 a3596f3d main_ins%b
+D physics_units.ads	20260209024733 1e0e928c physics_units%s
+D shared_memory.ads	20260209024527 72b8c1c8 shared_memory%s
+D system.ads		20240801081714 14286b0f system%s
+D s-conca3.ads		20240801081713 8a7a19a2 system.concat_3%s
+D s-crtl.ads		20240801081713 beb39b9e system.crtl%s
+D s-exctab.ads		20240801081713 91bef6ef system.exception_table%s
+D s-ficobl.ads		20240801081713 dc5161d4 system.file_control_block%s
+D s-imager.ads		20240801081713 45c7157d system.image_r%s
+D s-imageu.ads		20240801081713 b0b50650 system.image_u%s
+D s-imglfl.ads		20240801081713 941be202 system.img_lflt%s
+D s-imgllu.ads		20240801081713 55ba53d8 system.img_llu%s
+D s-parame.ads		20250315014742 a1aeab5c system.parameters%s
+D s-powlfl.ads		20240801081713 ac0852c8 system.powten_lflt%s
+D s-putima.ads		20240801081713 17291fe4 system.put_images%s
+D s-secsta.ads		20240801081713 578279f5 system.secondary_stack%s
+D s-soflin.ads		20240801081713 df77073e system.soft_links%s
+D s-stache.ads		20240801081713 0b81c1fe system.stack_checking%s
+D s-stalib.ads		20240801081713 1c9580f6 system.standard_library%s
+D s-stoele.ads		20240801081713 ccded4e8 system.storage_elements%s
+D s-traent.ads		20240801081713 c81cbf8c system.traceback_entries%s
+D s-unstyp.ads		20240801081713 fa2a7f59 system.unsigned_types%s
+D s-valspe.ads		20240801081714 b0fcd073 system.val_spec%s
+D s-vauspe.ads		20240801081714 89269ba5 system.value_u_spec%s
+D s-vs_llu.ads		20240801081714 8f3536c5 system.vs_llu%s
+D s-wchcon.ads		20240801081714 d9032363 system.wch_con%s
+G a e
+G c Z b b [main_ins standard 6 11 none]
+G r c none [main_ins standard 6 11 none] [Omultiply physics_units 41 13 none]
+G r c none [main_ins standard 6 11 none] [Oadd physics_units 37 13 none]
+G r c none [main_ins standard 6 11 none] [Omultiply physics_units 42 13 none]
+G r c none [main_ins standard 6 11 none] [Oadd physics_units 38 13 none]
+X 1 ada.ads
+16K9*Ada 20e8 16|1r6 1r23
+X 11 a-textio.ads
+58K13*Text_IO 785e16 16|1w10 1r27
+284U14*New_Line 16|73s16
+515U14*Put 16|71s16 72s16
+565U14*Put_Line 16|37s4 38s4 39s4 40s4 41s4
+X 13 interfac.ads
+38K9*Interfaces 233e15 16|2w6 2r22
+54I9*Integer_32<integer>
+81M9*Unsigned_32
+84M9*Unsigned_64
+X 16 main_ins.adb
+6U11*Main_INS 6b11 88l5 88t13
+9U14*Start_C_Driver 10b<c,start_c_driver>22 43s4
+15m4 Current_Read{18|12M9} 49r10 50r54 80m10 80r27 81r38
+16m4 Write_Idx{18|12M9} 47m7 49r26
+20f4 Accel_Scale{17|5F9} 59r63 60r63 61r64
+23r4 Raw_Sample{18|19R9} 50m10 54r36 59r41 60r41 61r42 77r21
+24a4 Acc_Vec{17|24A9} 59m13 60m13 61m13 65r39
+27a4 Vel_State{17|25A9} 65m13 65r26 67r39 72r48
+28a4 Pos_State{17|26A9} 67m13 67r26 71r48
+30m4 Last_TS{18|13M9} 53r13 54r62 77m10
+31f4 Dt{17|9F9} 54m13 65r49 67r51
+34i4 Cycle_Count{integer} 70r16 78m10 78r25
+X 17 physics_units.ads
+1K9*Physics_Units 16|4w6 4r25 17|45e18
+5F9*Float_64<long_float> 16|20r27 54r27 59r32 60r32 61r33 61r79 71r33 72r33
+9F9*Seconds<5F9> 16|31r19 54r19
+11F9*Meters_Per_Second_Squared<5F9>
+20n24*X_Axis{20E9} 16|59r21 71r58 72r58
+20n32*Y_Axis{20E9} 16|60r21
+20n40*Z_Axis{20E9} 16|61r21
+21A9*Vector_3D(5F9)<20E9>
+24A9*Acceleration_Vector<21A9>(5F9)<20E9> 16|24r19
+25A9*Velocity_Vector<21A9>(5F9)<20E9> 16|27r19
+26A9*Position_Vector<21A9>(5F9)<20E9> 16|28r19
+34f4*Gravity{11F9} 16|61r88
+37V14*"+"{25A9} 16|65s36
+38V14*"+"{26A9} 16|67s36
+41V14*"*"{25A9} 16|65s47
+42V14*"*"{26A9} 16|67s49
+X 18 shared_memory.ads
+4K9*Shared_Memory 16|3w6 12r8 18|53e18
+8N4*Ring_Buffer_Size 16|80r49
+11I9*Int32<13|54I9>
+12M9*UInt32<13|81M9> 16|15r19 16r19
+13M9*UInt64<13|84M9> 16|30r19
+19R9*Sensor_Sample 16|23r19 18|32e14
+20m7*Timestamp_Ns{13M9} 16|54r47 77r32
+21i7*Accel_X{11I9} 16|59r52
+22i7*Accel_Y{11I9} 16|60r52
+23i7*Accel_Z{11I9} 16|61r53
+36A9*Sample_Buffer_Array(19R9)<integer>
+41m7*Write_Index{12M9} 16|47r34
+42m7*Read_Index{12M9} 16|81m24
+43a7*Buffer{36A9} 16|50r38
+50r4*Global_Memory{40R9} 16|47r20 50r24 81m10
+

@@ -1,0 +1,86 @@
+V "GNAT Lib v14"
+A -gnatA
+A -gnat2012
+A -g
+A -gnata
+A -gnato
+A -mtune=generic
+A -march=x86-64
+P ZX
+
+RN
+RV NO_FLOATING_POINT
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U physics_units%b	physics_units.adb	fda28d19 NE OO PK
+
+U physics_units%s	physics_units.ads	1e0e928c NE OO PU PK
+
+D physics_units.ads	20260209024733 1e0e928c physics_units%s
+D physics_units.adb	20260209024737 e3ac1f95 physics_units%b
+D system.ads		20240801081714 14286b0f system%s
+G a e
+G c Z s b [Oadd physics_units 37 13 none]
+G c Z s b [Oadd physics_units 38 13 none]
+G c Z s b [Omultiply physics_units 41 13 none]
+G c Z s b [Omultiply physics_units 42 13 none]
+G c Z s s [Tvector_3dBIP physics_units 21 4 none]
+G c Z s s [Tacceleration_vectorBIP physics_units 24 4 none]
+G c Z s s [Tvelocity_vectorBIP physics_units 25 4 none]
+G c Z s s [Tposition_vectorBIP physics_units 26 4 none]
+G c Z s s [quaternionIP physics_units 29 9 none]
+X 1 physics_units.ads
+1K9*Physics_Units 45l5 45e18 2|1b14 49l5 49t18
+5F9*Float_64<long_float> 8r23 9r24 10r34 11r42 13r24 14r35 16r22 17r22 21r44
+. 30r20 2|34r33 43r33
+8F9*Meters<5F9>
+9F9*Seconds<5F9> 41r54 42r50 2|30r54 39r50
+10F9*Meters_Per_Second<5F9>
+11F9*Meters_Per_Second_Squared<5F9> 34r23
+13F9*Radians<5F9>
+14F9*Radians_Per_Second<5F9>
+16F9*Tesla<5F9>
+17F9*Gauss<5F9>
+20E9*Axis_Index 20e47 21r29 2|6r16 15r16 24r16 33r16 42r16
+20n24*X_Axis{20E9}
+20n32*Y_Axis{20E9}
+20n40*Z_Axis{20E9}
+21A9*Vector_3D(5F9)<20E9> 24r36 25r32 26r32
+24A9*Acceleration_Vector<21A9>(5F9)<20E9> 41r25 2|3r32 3r60 4r16 30r25
+25A9*Velocity_Vector<21A9>(5F9)<20E9> 37r32 37r56 41r70 42r25 2|12r32 12r56
+. 13r16 30r70 31r16 39r25
+26A9*Position_Vector<21A9>(5F9)<20E9> 38r32 38r56 42r66 2|21r32 21r56 22r16
+. 39r66 40r16
+29R9*Quaternion 31e14
+30f7*W{5F9}
+30f10*X{5F9}
+30f13*Y{5F9}
+30f16*Z{5F9}
+34f4*Gravity{11F9}
+37V14*"+"{25A9} 37>18 37>24 2|12b14 19l9 19t11
+37a18 Left{25A9} 2|12b18 16r23
+37a24 Right{25A9} 2|12b24 16r33
+38V14*"+"{26A9} 38>18 38>24 2|21b14 28l9 28t11
+38a18 Left{26A9} 2|21b18 25r23
+38a24 Right{26A9} 2|21b24 25r33
+41V14*"*"{25A9} 41>18 41>46 2|30b14 37l9 37t11
+41a18 Left{24A9} 2|30b18 34r23
+41f46 Right{9F9} 2|30b46 34r42
+42V14*"*"{26A9} 42>18 42>42 2|39b14 46l9 46t11
+42a18 Left{25A9} 2|39b18 43r23
+42f42 Right{9F9} 2|39b42 43r42
+X 2 physics_units.adb
+3V14 "+"{1|24A9} 3b14 3>18 3>24 10l9 10t11
+3a18 Left{1|24A9} 7r23
+3a24 Right{1|24A9} 7r33
+4a7 Result{1|24A9} 7m10 9r14
+6e11 I{1|20E9} 7r17 7r28 7r39
+13a7 Result{1|25A9} 16m10 18r14
+15e11 I{1|20E9} 16r17 16r28 16r39
+22a7 Result{1|26A9} 25m10 27r14
+24e11 I{1|20E9} 25r17 25r28 25r39
+31a7 Result{1|25A9} 34m10 36r14
+33e11 I{1|20E9} 34r17 34r28
+40a7 Result{1|26A9} 43m10 45r14
+42e11 I{1|20E9} 43r17 43r28
+

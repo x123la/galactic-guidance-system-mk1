@@ -1,0 +1,20 @@
+[GENERATED OBJECT FILE]
+b__main_ins.o
+[PROJECT FILES]
+/home/x123la/gemini_ins/gemini_ins.gpr
+20260209024258 98aa2f7f4328f0e1ad8a5defbaabdc85
+[BOUND OBJECT FILES]
+/home/x123la/gemini_ins/obj/physics_units.o
+/home/x123la/gemini_ins/obj/shared_memory.o
+/home/x123la/gemini_ins/obj/main_ins.o
+[GENERATED SOURCE FILES]
+b__main_ins.ads
+b__main_ins.adb
+b__main_ins.ali
+[RESULTING OPTIONS]
+-L/home/x123la/gemini_ins/obj/
+-L/home/x123la/gemini_ins/obj/
+-L/usr/lib/gcc/x86_64-linux-gnu/14/adalib/
+-shared
+-lgnat-14
+-ldl
